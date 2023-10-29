@@ -16,7 +16,7 @@ pipeline{
         }
         stage('sonar analysis'){
     steps{
-        withSonarQubeEnv(credentialsId: 'sonarqube'){
+        withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube'){
             sh '''
                 $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=tetris-v1 \
                 -Dsonar.projectKey=tetris-v1
