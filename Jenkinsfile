@@ -48,12 +48,13 @@ pipeline{
         stage('docker build'){
             steps{
                 script{
-                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker')
+                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker'){
                     sh '''
                         docker build -t tetris-game-v1 .
                         docker tag tetris-game-v1 mukeshr29/tetris-game-v1:latest
                         docker push mukeshr29/tetris-game-v1:latest
                     '''
+                    }
                 }
             }
         }
