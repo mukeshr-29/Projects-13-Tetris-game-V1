@@ -6,22 +6,21 @@ pipeline{
     }
     environment{
         SCANNER_HOME=tool 'sonar-scanner'
-        GIT_REPO_NAME = 'Project-13-Tetris-game-manifest'
-        GIT_USER_NAME = 'mukeshr-29'
+
     }
 
     stages{
         stage('git checkout'){
             steps{
-                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Projects-13-Tetris-game-V1.git'
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Projects-13-Tetris-game-V2.git'
             }
         }
         stage('sonar analysis'){
     steps{
         withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube'){
             sh '''
-                $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=tetris-v1 \
-                -Dsonar.projectKey=tetris-v1
+                $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=tetris-v2 \
+                -Dsonar.projectKey=tetris-v2
             '''
                 }
             }
@@ -52,9 +51,9 @@ pipeline{
                 script{
                     withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker'){
                     sh '''
-                        docker build -t tetris-game-v1 .
-                        docker tag tetris-game-v1 mukeshr29/tetris-game-v1:latest
-                        docker push mukeshr29/tetris-game-v1:latest
+                        docker build -t tetris-game-v2 .
+                        docker tag tetris-game-v1 mukeshr29/tetris-game-v2:latest
+                        docker push mukeshr29/tetris-game-v2:latest
                     '''
                     }
                 }
@@ -62,7 +61,7 @@ pipeline{
         }
         stage('trivy img scan'){
             steps{
-                sh 'trivy image mukeshr29/tetris-game-v1:latest'
+                sh 'trivy image mukeshr29/tetris-game-v2:latest'
             }
         }
         // stage('git checkout manifest'){
