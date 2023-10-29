@@ -34,5 +34,33 @@ pipeline{
                 sh 'npm install'
             }
         }
+        stage('trivy scan'){
+            steps{
+                sh 'trivy fs .'
+            }
+        }
+        stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage('docker build'){
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker')
+                    sh '''
+                        docker build -t tetris-game-v1 .
+                        docker tag tetris-game-v1 mukeshr29/tetris-game-v1:latest
+                        docker push mukeshr29/tetris-game-v1:latest
+                    '''
+                }
+            }
+        }
+        stage('trivy img scan'){
+            steps{
+                sh 'trivy image mukeshr29/tetris-game-v1:latest'
+            }
+        }
     }
 }
