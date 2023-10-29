@@ -67,7 +67,7 @@ pipeline{
         }
         stage('git checkout manifest'){
             steps{
-                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Project-13-Tetris-game-manifest.git55'
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Project-13-Tetris-game-manifest.git'
             }
         }
         stage('update image'){
