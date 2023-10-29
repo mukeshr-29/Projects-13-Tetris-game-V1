@@ -6,12 +6,19 @@ pipeline{
     }
     environment{
         SCANNER_HOME=tool 'sonar-scanner'
+        GIT_REPO_NAME = 'Project-13-Tetris-game-manifest'
+        GIT_USER_NAME = 'mukeshr-29'
     }
 
     stages{
         stage('git checkout'){
             steps{
                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Projects-13-Tetris-game-V1.git'
+            }
+        }
+        stage('git checkout manifest'){
+            steps{
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Project-13-Tetris-game-manifest.git55'
             }
         }
         stage('sonar analysis'){
@@ -61,6 +68,19 @@ pipeline{
         stage('trivy img scan'){
             steps{
                 sh 'trivy image mukeshr29/tetris-game-v1:latest'
+            }
+        }
+        stage('update image'){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'github1', variable: 'GITHUB_TOKEN')]){
+                        NEW_IMAGE_NAME = "mukeshr29/tetris-game-v1:latest"
+                        sh "sed -i 's|image: .*|image: $NEW_IMAGE_NAME|' deployment.yml"
+                        sh 'git add deployment.yml'
+                        sh "git commit -m 'Update deployment image to $NEW_IMAGE_NAME'"
+                        sh "git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main"
+                    }
+                }
             }
         }
     }
