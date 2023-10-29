@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/mukeshr-29/Projects-13-Tetris-game-V1.git'
+                }
+            }
+            stage('terraform init') {
+                steps {
+                    dir('Eks-terraform') {
+                        sh 'terraform init'
+                }
+            }
+        }
+        stage('terraform validate') {
+            steps {
+                dir('Eks-terraform') {
+                    sh 'terraform validate'
+                }
+            }
+        }
+        stage('terraform plan') {
+            steps {
+                dir('Eks-terraform') {
+                    sh 'terraform plan'
+                }
+            }
+        }
+        stage('terraform apply/destroy') {
+            steps {
+                dir('Eks-terraform') {
+                    sh 'terraform ${action} --auto-approve'
+                }
+            }
+        }
+    }
+}
