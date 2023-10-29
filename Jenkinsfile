@@ -70,6 +70,11 @@ pipeline{
                 sh 'trivy image mukeshr29/tetris-game-v1:latest'
             }
         }
+        stage('git checkout manifest'){
+            steps{
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Project-13-Tetris-game-manifest.git55'
+            }
+        }
         stage('update image'){
             steps{
                 script{
