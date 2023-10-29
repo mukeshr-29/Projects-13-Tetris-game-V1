@@ -16,11 +16,6 @@ pipeline{
                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Projects-13-Tetris-game-V1.git'
             }
         }
-        stage('git checkout manifest'){
-            steps{
-                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Project-13-Tetris-game-manifest.git55'
-            }
-        }
         stage('sonar analysis'){
     steps{
         withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube'){
