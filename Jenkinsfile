@@ -18,7 +18,8 @@ pipeline{
             steps{
                 withSonarQubeEnv(credentialsId: 'sonarqube'){
                     sh '''
-                        $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=tetris-v1 \ -Dsonar.projectKey=tetris-v1
+                        $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=tetris-v1 \ 
+                        -Dsonar.projectKey=tetris-v1
                     '''
                 }
             }
