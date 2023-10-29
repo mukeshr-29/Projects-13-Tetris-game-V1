@@ -12,7 +12,7 @@ pipeline{
     stages{
         stage('git checkout'){
             steps{
-                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Projects-13-Tetris-game-V2.git'
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/mukeshr-29/Project-13-Tetris-game-V2.git'
             }
         }
         stage('sonar analysis'){
